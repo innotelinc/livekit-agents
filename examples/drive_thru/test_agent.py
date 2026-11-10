@@ -1,13 +1,13 @@
 from __future__ import annotations
 
+import os
+
 import pytest
 
 from livekit.agents import AgentSession, ChatContext, inference, llm
 from livekit.agents.voice.run_result import mock_tools
 
 from .agent import DriveThruAgent, new_userdata
-
-import os
 
 pytestmark = pytest.mark.skipif(
     not os.environ.get("LIVEKIT_API_KEY"),

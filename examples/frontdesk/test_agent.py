@@ -1,3 +1,4 @@
+import os
 from datetime import datetime, time, timedelta
 from zoneinfo import ZoneInfo
 
@@ -7,8 +8,6 @@ from livekit.agents import AgentSession, beta, inference, llm
 
 from .agent import FrontDeskAgent, Userdata
 from .calendar_api import AvailableSlot, FakeCalendar
-
-import os
 
 pytestmark = pytest.mark.skipif(
     not os.environ.get("LIVEKIT_API_KEY"),
