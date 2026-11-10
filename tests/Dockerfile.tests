@@ -6,4 +6,8 @@ RUN apt-get update && apt-get install -y curl strace procps
 
 RUN pip install --no-cache-dir uv
 
+# The workspace definition is baked in, not bind-mounted: uv rewrites
+# uv.lock while resolving, and a single-file mount cannot be replaced.
+COPY pyproject.toml uv.lock /app/
+
 WORKDIR /app
