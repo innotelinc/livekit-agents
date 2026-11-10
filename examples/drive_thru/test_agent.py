@@ -7,6 +7,13 @@ from livekit.agents.voice.run_result import mock_tools
 
 from .agent import DriveThruAgent, new_userdata
 
+import os
+
+pytestmark = pytest.mark.skipif(
+    not os.environ.get("LIVEKIT_API_KEY"),
+    reason="needs LIVEKIT_API_KEY",
+)
+
 
 def _main_llm() -> llm.LLM | llm.RealtimeModel:
     # use any LLM or realtime model
