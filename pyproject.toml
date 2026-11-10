@@ -237,6 +237,12 @@ module = "bithuman.*"
 follow_untyped_imports = true
 ignore_missing_imports = true
 
+# The bithuman plugin imports these two at module scope, but its dependency is
+# only installed on Python 3.11+, so a 3.10 type-check cannot resolve them.
+[[tool.mypy.overrides]]
+module = ["cv2", "cv2.*", "loguru", "loguru.*"]
+ignore_missing_imports = true
+
 [[tool.mypy.overrides]]
 module = "livekit.plugins"
 follow_untyped_imports = true
