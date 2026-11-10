@@ -196,6 +196,10 @@ SYNTHESIZE_TTS = [
             "proxy-upstream": "api.elevenlabs.io:443",
         },
         id="elevenlabs",
+        marks=pytest.mark.skipif(
+            not os.environ.get("ELEVENLABS_API_KEY"),
+            reason="needs ELEVENLABS_API_KEY",
+        ),
     ),
     pytest.param(
         lambda: {
@@ -489,6 +493,10 @@ STREAM_TTS = [
             "proxy-upstream": "api.elevenlabs.io:443",
         },
         id="elevenlabs",
+        marks=pytest.mark.skipif(
+            not os.environ.get("ELEVENLABS_API_KEY"),
+            reason="needs ELEVENLABS_API_KEY",
+        ),
     ),
     pytest.param(
         lambda: {
