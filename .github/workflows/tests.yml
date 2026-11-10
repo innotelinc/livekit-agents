@@ -119,7 +119,36 @@ jobs:
         run: |
           printf '%s' '${{ secrets.GOOGLE_CREDENTIALS_JSON }}' > tests/google.json
 
+      - name: Check the plugin's provider key
+        id: key
+        shell: bash
+        env:
+          PLUGIN: ${{ matrix.plugin }}
+          DEEPGRAM_API_KEY: ${{ secrets.DEEPGRAM_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ELEVEN_API_KEY: ${{ secrets.ELEVEN_API_KEY }}
+          CARTESIA_API_KEY: ${{ secrets.CARTESIA_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          INWORLD_API_KEY: ${{ secrets.INWORLD_API_KEY }}
+        run: |
+          case "$PLUGIN" in
+            deepgram) key="$DEEPGRAM_API_KEY" ;;
+            openai) key="$OPENAI_API_KEY" ;;
+            elevenlabs) key="$ELEVEN_API_KEY" ;;
+            cartesia) key="$CARTESIA_API_KEY" ;;
+            groq) key="$GROQ_API_KEY" ;;
+            inworld) key="$INWORLD_API_KEY" ;;
+            *) key="" ;;
+          esac
+          if [ -z "$key" ]; then
+            echo "::notice::No provider key is configured for the $PLUGIN plugin; skipping its suite."
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Run tests
+        if: steps.key.outputs.run == 'true'
         shell: bash
         env:
           PLUGIN: ${{ matrix.plugin }}
