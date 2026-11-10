@@ -1,3 +1,4 @@
+import os
 import random
 from dataclasses import dataclass
 
@@ -5,7 +6,13 @@ import pytest
 
 from livekit.agents import Agent, AgentSession, AgentTask, RunContext, function_tool, inference, llm
 
-pytestmark = pytest.mark.evals
+pytestmark = [
+    pytest.mark.evals,
+    pytest.mark.skipif(
+        not os.environ.get("LIVEKIT_API_KEY"),
+        reason="needs LIVEKIT_API_KEY",
+    ),
+]
 
 
 def _llm_model() -> llm.LLM:
